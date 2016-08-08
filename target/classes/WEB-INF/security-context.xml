@@ -7,12 +7,20 @@
 
 	<!-- We will be defining all security related configurations in this file -->
 
-	<http >
+	<http use-expressions="true">
 		<!-- <intercept-url pattern="/login" access="permitAll" /> <intercept-url 
 			pattern="/" access="hasAnyRole('USER','ADMIN')" /> -->
-		
-		<intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />
-		<form-login default-target-url="/home.html"/>
+		<intercept-url pattern="/login.html" access="permitAll" />
+		<intercept-url pattern="/**" access="isFullyAuthenticated()" />
+		<form-login 
+		login-page="/login.html"
+		authentication-failure-url="/login.html?error=true"
+		default-target-url="/home.html"
+		always-use-default-target="true"/>
+	<logout 
+	logout-url="/logout"
+	invalidate-session="true"
+	logout-success-url="/login.html"/>
 	</http>
 	<authentication-manager>
 		<authentication-provider>

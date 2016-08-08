@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.app.model.Student;
 import com.app.dao.StudentDao;
 import com.app.service.StudentService;
-@Service
+@Service("studentService")
 public class StudentServiceImpl implements StudentService {
 	@Autowired
 	private StudentDao studentDao;

@@ -2,41 +2,37 @@ package com.app.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.app.model.Student;
 import com.app.dao.StudentDao;
+import com.app.model.Student;
 
-@Repository
-public class StudentDaoImpl implements StudentDao {
-	@Autowired
-	private SessionFactory session;
+@Repository("studentDao")
+public class StudentDaoImpl extends AbstractDao implements StudentDao {
 	
 	@Override
 	public void add(Student student) {
-		session.getCurrentSession().save(student);
+		getSession().save(student);
 	}
 
 	@Override
 	public void edit(Student student) {
-		session.getCurrentSession().update(student);
+		getSession().update(student);
 	}
 
 	@Override
 	public void delete(int studentId) {		
-		session.getCurrentSession().delete(getStudent(studentId));
+		getSession().delete(getStudent(studentId));
 	}
 
 	@Override
 	public Student getStudent(int studentId) {
-		return (Student)session.getCurrentSession().get(Student.class, studentId);
+		return (Student)getSession().get(Student.class, studentId);
 	}
 
 	@Override
 	public List getAllStudent() {
-		return session.getCurrentSession().createQuery("from Student").list();
+		return getSession().createQuery("from Student").list();
 	}
 
 }

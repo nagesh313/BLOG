@@ -3,49 +3,44 @@ package com.app.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.app.model.User;
 import com.app.dao.UserDao;
-@Repository
-public class UserDaoImpl implements UserDao {
-	@Autowired
-	private SessionFactory session;
-	
+import com.app.model.User;
+@Repository("userDao")
+public class UserDaoImpl extends AbstractDao implements UserDao {
+
 	@Override
 	public void addUser(User user) {
-		session.getCurrentSession().save(user);
+		getSession().save(user);
 	}
 
 	@Override
 	public void editUser(User user) {
-		session.getCurrentSession().update(user);
+		getSession().update(user);
 	}
 
 	@Override
 	public void deleteUser(int userId) {
-		session.getCurrentSession().delete(findUser(userId));
+		getSession().delete(findUser(userId));
 	}
 
 	@Override
 	public User findUser(int userId) {
-		return (User) session.getCurrentSession().get(User.class, userId);
+		return (User) getSession().get(User.class, userId);
 	}
 
 	@Override
 	public User findUserByName(String username) {
-		Criteria criteria = session.getCurrentSession().createCriteria(User.class);
+		Criteria criteria = getSession().createCriteria(User.class);
 		criteria.add(Restrictions.eq("username", username));		
 		return (User) criteria.uniqueResult();
 	}
 
 	@Override
 	public List<User> getAllUsers() {
-		return session.getCurrentSession().createQuery("from User").list();
+		return getSession().createQuery("from User").list();
 	}
 
 }
